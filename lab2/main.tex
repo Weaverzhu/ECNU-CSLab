@@ -177,6 +177,44 @@
 
 我们通过控制 $XP,W$ 来控制 $AX, BX$ 的有效位来进行字节运算
 
+\subsection{移位运算}
+
+所谓循环移位，就是指移位时数据的首尾相连进行移位，即最高（最低）位的移出位又移入
+数据的最低（最高）位。根据循环移位时进位位是否一起参加循环，可将循环移位分为不带进位
+循环和带进位循环两类。其中不带进位循环是指进位“CY”的内容不与数据部分一起循环移位，
+也称小循环。带进位循环是指进位“CY”中的内容与数据部分一起循环移位，也称大循环。
+
+\begin{itemize}
+  \item 不带进位循环左移：各位按位左移，最高位移入最低位。
+  \item 不带进位循环右移：各位按位右移，最低位移入最高位。
+  \item 带进位循环左移：各位按位左移，最高位移入C 中，C 中内容移入最低位。
+  \item 带进位循环右：各位按位右移，最低位移入C 中，C 中内容移入最高位。
+\end{itemize}
+
+循环移位一般用于实现循环式控制、高低字节的互换，还可以用于实现多倍字长数据的算术
+移位或逻辑移位。
+
+移位运算的过程如图 \ref{fig:shift} 所示
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=0.7\textwidth]{4.jpg}
+  \caption{移位运算过程}
+  \label{fig:shift}
+\end{figure}
+
+\subsubsection{字运算}
+
+完成 AX输入后，按下表 \ref{fig:shiftfunc} 输入，再按单排可观察到AX的移位变化
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=0.5\textwidth]{5.jpg}
+  \caption{移位运算功能表}
+  \label{fig:shiftfunc}
+\end{figure}
+
+
 \subsection{带进位运算}
 
 \subsubsection{进位控制}
@@ -187,7 +225,7 @@
   \item 按单拍
 \end{itemize}
 
-其中进位控制编码如图\ref{fig:cycode}所示
+其中进位控制编码如图 \ref{fig:cycode} 所示
 
 
 \begin{figure}[h]
@@ -205,6 +243,8 @@
   \item $S0=0$ 为减法，否则为加法
 \end{itemize}
 
+通过带进位运算我们就可以用 16位 的计算机完成32位数的运算操作，先计算低16位，然后保留进位再进行高16位的操作。
+
 
 \subsection{零标志}
 
@@ -215,12 +255,29 @@
 
 我们通过 $X_2X_1X_0 = 001$ 来设置总线的输入设备位 ALU，和上次实验一样，设置 $IOW = 1$ 并且给 $IRCK$ 一个脉冲，便可完成总线到 I/O 的输出。
 
+\subsection{小结}
+
+总结来说，运算控制码如下表 \ref{fig:calc} 所示。
+
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=0.7\textwidth]{calc.jpg}
+  \caption{ALU 运算器真值表}
+  \label{fig:calc}
+\end{figure}
 
 \section{调试过程、结果与分析}
 
 \subsection{实验要求}
 
-假设CY原来有值，在进行带进位加法时，加法结果可能会产生新的进位，也可能不产 生。请分析这种情况，设计实验验证各种情况下加法完成后CY的值
+\begin{enumerate}
+  \item 假设CY原来有值，在进行带进位加法时，加法结果可能会产生新的进位，也可能不产 生。请分析这种情况，设计实验验证各种情况下加法完成后CY的值
+  \item 输入两个16位数 FFFE 和 0003，输出进位加法结果
+\end{enumerate}
+
+
+
 
 \subsection{分析}
 
@@ -233,8 +290,40 @@
   \item 减法带进位运算 $MS_2S_1S_0=1110$,若原来 $AX=000F,BX=000E,CY=1$, 则结果 $DBUS=FUN=0000$，不产生新的进位
 \end{itemize}
 
+\subsection{结果}
+
+令 $AX=FFFE, BX=0003$ 分别按照上述的接线方法进行带进位加法和减法，结果分别如图 \ref{fig:add} 和 图 \ref{fig:sub} 所示
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=0.7\textwidth]{add.jpg}
+  \caption{带进位加法}
+  \label{fig:add}
+\end{figure}
+
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=0.7\textwidth]{sub.jpg}
+  \caption{带进位减法}
+  \label{fig:sub}
+\end{figure}
+
+
 \section{总结}
 
+第二次试验总结以下经验
+
+\begin{enumerate}
+  \item 在开始之前最好首先了解每个开关的意义，帮助理解并且减少失误
+  \item 开关最好插在下方对应表示的开关口中，剩余的按照表格填入。这样方便记忆每个插口的位置
+  \item 每次开始之前先初始化
+  \item 仔细阅读实验指导书
+  \item 实验箱上每个模块的奇偶位输入都有对应的指示灯，方便指认电路是否连接错误
+\end{enumerate}{}
+
 \section{附件}
+
+无
 
 \end{document}
