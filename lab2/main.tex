@@ -70,8 +70,8 @@
   \begin{minipage}[t]{.32\linewidth}
     \textbf{课程名称：}计算机组成与结构实践\\
     \textbf{指导教师：}金健\\
-    \textbf{上机实践名称：} TODO\\
-    \textbf{实践编号：}实验 1
+    \textbf{上机实践名称：} 十六位机运算器实验\\
+    \textbf{实践编号：}实验 2
   \end{minipage}
   \begin{minipage}[t]{.32\linewidth}
     \textbf{年级：}17 级\\
@@ -82,7 +82,7 @@
   \begin{minipage}[t]{.32\linewidth}
     \textbf{上机实践成绩：} \\
     \textbf{创新实践成绩：} \\
-    \textbf{上机实践日期：}2019/09/20\\
+    \textbf{上机实践日期：}2019/09/27\\
     \textbf{上机实践时间：}2 学时\\
   \end{minipage}
 }
@@ -208,18 +208,30 @@
 
 \subsection{零标志}
 
-
+进行运算后，$Z$ 标志按钮会随着运算结果变化而变化
 
 \subsection{ ALU 到 BUS 和 BUS 到 IO}
-
 
 
 我们通过 $X_2X_1X_0 = 001$ 来设置总线的输入设备位 ALU，和上次实验一样，设置 $IOW = 1$ 并且给 $IRCK$ 一个脉冲，便可完成总线到 I/O 的输出。
 
 
-
-
 \section{调试过程、结果与分析}
+
+\subsection{实验要求}
+
+假设CY原来有值，在进行带进位加法时，加法结果可能会产生新的进位，也可能不产 生。请分析这种情况，设计实验验证各种情况下加法完成后CY的值
+
+\subsection{分析}
+
+我们已经知道了手动控制 $CY$，和控制 $CY$ 是否带入运算的方法，且 $CY$ 于加法表示加法进位，减法表示减法进位。因此我们可以推断出
+
+\begin{itemize}
+  \item 加法带进位运算 $MS_2S_1S_0=1111$, 若原来 $AX=0001,BX=0003,CY=1$, 则结果 $DBUS=FUN=0005$，不产生新的进位
+  \item 加法带进位运算 $MS_2S_1S_0=1111$,若原来 $AX=000F,BX=000F,CY=1$, 则结果 $DBUS=FUN=000F$，产生新的进位
+  \item 减法带进位运算 $MS_2S_1S_0=1110$,若原来 $AX=000F,BX=000F,CY=1$, 则结果 $DBUS=FUN=000F$，产生新的进位
+  \item 减法带进位运算 $MS_2S_1S_0=1110$,若原来 $AX=000F,BX=000E,CY=1$, 则结果 $DBUS=FUN=0000$，不产生新的进位
+\end{itemize}
 
 \section{总结}
 
