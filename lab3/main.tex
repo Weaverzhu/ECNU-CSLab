@@ -102,14 +102,94 @@
 
 \section{实验内容}
 
+向PC、AR和SP中分别存入一个数，并对PC中的数执行 PC+1
 
 \section{实验原理}
 
+地址总线的作用是传递地址信息，输出当前数据总线上发送信息的源地址或接收信息的目的 地址。如下图所示本系统设有内存与外设两条地址总线，通过 PC 计数器提供内存（程序存储器） 地址，并由地址寄存器 AR 传递内存（数据存储器）地址与外设地址。另外堆栈寄存器 SP 亦可 视为地址寄存器，它的堆顶指向数据与程序指针存取地址。
 
+\subsection{11位程序地址}
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=0.7\textwidth]{1.PNG}
+  \caption{地址总线组成通路}
+  \label{fig:1}
+\end{figure}
+
+如图 \ref{fig:1} 所示，本系统从提高信息存取效率的角度设计主内存地址通路，按现代计算机体 系结构中最为典型的分段存取理念合成主存及外设地址总线 addr，在指令操作“时段” （取操作 码与取操作数） ，以当前程序指针 PC 为址，遇主存数据传递“时段”以当前数据指针 AR 为址。 addr 地址的合成通路见图 \ref{fig:1}。其寻址范围为 0~7FFh。
+
+\subsection{16 位数据地址}
+
+如图 \ref{fig:1} 所示，本系统数据指针由地址锁存器 AR 直接提供，当 LDAR=1 时，在 DRCK 下降沿把数据总线打入 AR。其寻址范围为 0~FFFFh，可达 64KB。
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=0.9\textwidth]{2.PNG}
+  \caption{地址部件控制电路}
+  \label{fig:2}
+\end{figure}
+
+\subsection{程序计数器PC的操作}
+\begin{figure}[h]
+  \centering
+  \begin{tabular}{|c|c|c|c|}
+    \hline
+    E/M & IP & DRCK & 功能 \\
+    \hline
+    0 & 0 & -- & PC保持 \\
+    \hline
+    0 & 1 & 脉冲 & PC=PC+1 \\
+    \hline
+    1 & 1 & 脉冲 & BUS->PC \\
+    \hline
+  \end{tabular}
+  \caption{地址总线组成通路}
+  \label{fig:3}
+\end{figure}
+
+
+程序计数器PC的操作如上表所示
 
 \section{实验步骤}
 
+\subsection{BUS 到 PC}
+
+\begin{itemize}
+  \item 设置 $E/M=0 IP=1, DRCK$ 脉冲
+\end{itemize}
+
+
+\subsection{BUS 到 SP}
+
+\begin{itemize}
+  \item 设置 $SPW=1, DRCK$ 脉冲
+\end{itemize}
+
+
+\subsection{BUS 到 AR}
+
+\begin{itemize}
+  \item 设置 $LDAR, DRCK$ 脉冲
+\end{itemize}
+
+\subsection{PC=PC+1}
+
+\begin{itemize}
+  \item 设置 $E/M=1 IP=1, DRCK$ 脉冲
+\end{itemize}
+
 \section{调试过程、结果与分析}
+
+\subsection{实验结果}
+
+实验结果如下列图片所示
+
+
+
+\subsection{调试过程与分析}
+
+该次实验较为简单，没有调试过程。实验内容顺利完成。
 
 \section{总结}
 
