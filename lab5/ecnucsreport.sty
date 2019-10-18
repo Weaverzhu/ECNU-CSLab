@@ -1,0 +1,95 @@
+\ProvidesPackage{ecnucsreport}
+
+\newcommand{\initreport}[7][0]{
+    \def\reporttitle{#2}
+    \def\reportcourse{#3}
+    \def\reportinstructor{#4}
+    \def\reportname{#5}
+    \def\reportnum{#6}
+    \title{\reporttitle}
+}
+
+\newcommand{\initme}[7][0]{
+    \def\mygrade{#2}
+    \def\myname{#3}
+    \def\myid{#4}
+    \def\mygroup{#5}
+    \def\reportdate{#6}
+    \def\reporttime{#7}
+}
+
+\newcommand{\codestyle}{
+    \lstset{escapeinside=``, breaklines=true, frame=none, extendedchars=false, basicstyle=\ttfamily, showstringspaces=false}
+    \lstdefinestyle{shared}{
+        belowcaptionskip=1\baselineskip,
+        breaklines=true,
+        xleftmargin=0.2\parindent,
+        showstringspaces=false,
+        numbers=left, 
+        numberstyle=\tiny,
+        basicstyle=\fontsize{10}{12}\ttfamily,
+    }
+    \lstdefinestyle{cpp}{
+    	style=shared,
+        language=C++,
+        keywordstyle=\bfseries\color{green!40!black},
+        commentstyle=\itshape\color{red!80!black},
+        identifierstyle=\color{blue},
+        stringstyle=\color{purple!40!black},
+    }
+    \lstdefinestyle{java}{
+        style=shared,
+        language=Java,
+        keywordstyle=\bfseries\color{green!40!black},
+        commentstyle=\itshape\color{purple!40!black},
+        identifierstyle=\color{blue},
+        stringstyle=\color{orange},
+    }
+    \lstdefinestyle{py}{
+        style=shared,
+        language=Python,
+        keywordstyle=\bfseries\color{green!40!black},
+        commentstyle=\itshape\color{purple!40!black},
+        identifierstyle=\color{blue},
+        stringstyle=\color{orange},
+    }
+    \lstdefinestyle{txt}{
+        style=shared,
+    }
+}
+
+\newcommand{\makehead}{
+    \pagestyle{fancy}
+    \chead{\small\color{gray}\reporttitle}
+    \lhead{}
+    \rhead{\small\color{gray}\myid \myname}
+    \makeatletter
+    \def\headrule{{\if@fancyplain\let\headrulewidth\plainheadrulewidth\fi%
+    \color{gray}\hrule\@height 0.2pt\@width\headwidth}
+      \vspace{6mm}}
+    \makeatother
+    
+    {\center {\huge \bfseries \LARGE{\reporttitle}} \\ [0.8cm]
+    \small{
+      \begin{minipage}[t]{.32\linewidth}
+        \textbf{课程名称：}\reportcourse \\
+        \textbf{指导教师：}\reportinstructor \\
+        \textbf{上机实践名称：}\reportname \\
+        \textbf{上机实践编号：}\reportnum \\
+      \end{minipage}
+      \begin{minipage}[t]{.32\linewidth}
+        \textbf{年级：}\mygrade \\
+        \textbf{姓名：}\myname \\
+        \textbf{学号：}\myid \\
+        \textbf{组号：}\mygroup \\
+      \end{minipage} 
+      \begin{minipage}[t]{.32\linewidth}
+        \textbf{上机实践成绩：} \\
+        \textbf{创新实践成绩：} \\
+        \textbf{上机实践日期：}\reportdate \\
+        \textbf{上机实践时间：}\reporttime \\
+      \end{minipage}
+    }
+    \rule{\linewidth}{1mm} \\[0.5cm]
+    }
+}

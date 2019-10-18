@@ -1,0 +1,180 @@
+\ProvidesPackage{karnaugh}
+
+\usepackage{tikz}
+\usetikzlibrary{matrix,calc}
+
+\newcommand{\implicantsol}[3][0]{
+    \draw[rounded corners=3pt, fill=#3, opacity=0.3] ($(#2.north west)+(135:#1)$) rectangle ($(#2.south east)+(-45:#1)$);
+    }
+
+
+%internal group
+%#1 - Optional. Space between node and grouping line. Default=0
+%#2 - top left node
+%#3 - bottom right node
+%#4 - filling color
+\newcommand{\implicant}[3][0]{
+    % \draw[rounded corners=3pt, fill=#4, opacity=0.3] ($(#2.north west)+(135:#1)$) rectangle ($(#3.south east)+(-45:#1)$);
+    \draw let \p1 = ($(#3.north east)-(#2.south west)+(0.2,0.2)$) in
+        ($(#2.north east)!0.5!(#3.south west)$) ellipse [x radius=0.5*\x1, y radius=0.5*\y1];
+    % ($(#2.north west)-(#3.south east)$)
+    }
+
+%group lateral borders
+%#1 - Optional. Space between node and grouping line. Default=0
+%#2 - top left node
+%#3 - bottom right node
+%#4 - filling color
+\newcommand{\implicantcostats}[3][0]{
+    % \draw[rounded corners=3pt, fill=#4, opacity=0.3] ($(rf.east |- #2.north)+(90:#1)$)-| ($(#2.east)+(0:#1)$) |- ($(rf.east |- #3.south)+(-90:#1)$);
+    % \draw[rounded corners=3pt, fill=#4, opacity=0.3] ($(cf.west |- #2.north)+(90:#1)$) -| ($(#3.west)+(180:#1)$) |- ($(cf.west |- #3.south)+(-90:#1)$);
+    \draw let \p1 = ($(#3.north east)-(#2.south west)+(0.2,0.2)$) in let \p2 = ($(1.north east)-(4.south west)+(0.2,0.2)$) in
+        ($(#2.south east)+(0.23,-0.1)$) arc(270:90:0.5*\x2 and 0.5*\y1);
+    \draw let \p1 = ($(#3.north east)-(#2.south west)+(0.2,0.2)$) in let \p2 = ($(1.north east)-(4.south west)+(0.2,0.2)$) in
+        ($(#3.north west)-(0.23,-0.1)$) arc(450:270:0.5*\x2 and 0.5*\y1);
+}
+
+%group top-bottom borders
+%#1 - Optional. Space between node and grouping line. Default=0
+%#2 - top left node
+%#3 - bottom right node
+%#4 - filling color
+\newcommand{\implicantdaltbaix}[3][0]{
+    % \draw[rounded corners=3pt, fill=#4, opacity=0.3] ($(cf.south -| #2.west)+(180:#1)$) |- ($(#2.south)+(-90:#1)$) -| ($(cf.south -| #3.east)+(0:#1)$);
+    % \draw[rounded corners=3pt, fill=#4, opacity=0.3] ($(rf.north -| #2.west)+(180:#1)$) |- ($(#3.north)+(90:#1)$) -| ($(rf.north -| #3.east)+(0:#1)$);
+    \draw let \p1 = ($(#3.north east)-(#2.south west)+(0.2,0.2)$) in let \p2 = ($(1.north east)-(4.south west)+(0.2,0.2)$) in
+        ($(#2.north west)+(-0.1,0.2)$) arc(180:360:0.5*\x1 and 0.5*\y2);
+    \draw let \p1 = ($(#3.north east)-(#2.south west)+(0.2,0.2)$) in let \p2 = ($(1.north east)-(4.south west)+(0.2,0.2)$) in
+        ($(#3.south east)-(-0.1,0.2)$) arc(0:180:0.5*\x1 and 0.5*\y2);
+}
+
+%group corners
+%#1 - Optional. Space between node and grouping line. Default=0
+%#2 - filling color
+\newcommand{\implicantcantons}[1][0]{
+    \draw let \p2 = ($(1.north east)-(4.south west)+(0.2,0.2)$) in ($(0.north east)+(0.11,0.2)$) arc(360:270: 0.5*\x2 and 0.5*\y2);
+    \draw let \p2 = ($(1.north east)-(4.south west)+(0.2,0.2)$) in ($(2.south east)+(0.23,-0.1)$) arc(270:180: 0.5*\x2 and 0.5*\y2);
+    \draw let \p2 = ($(1.north east)-(4.south west)+(0.2,0.2)$) in ($(10.south west)+(-0.11,-0.2)$) arc(180:90: 0.5*\x2 and 0.5*\y2);
+    \draw let \p2 = ($(1.north east)-(4.south west)+(0.2,0.2)$) in ($(8.north west)+(-0.23,0.1)$) arc(90:0: 0.5*\x2 and 0.5*\y2);
+}
+
+%Empty Karnaugh map 4x4
+\newenvironment{Karnaugh}%
+{
+\begin{tikzpicture}[baseline=(current bounding box.north),scale=0.8]
+\draw (0,0) grid (4,4);
+\draw (0,4) -- node [pos=0.7,above right,anchor=south west] {cd} node [pos=0.7,below left,anchor=north east] {ab} ++(135:1);
+%
+\matrix (mapa) [matrix of nodes,
+        column sep={0.8cm,between origins},
+        row sep={0.8cm,between origins},
+        every node/.style={minimum size=0.3mm},
+        anchor=8.center,
+        ampersand replacement=\&] at (0.5,0.5)
+{
+                       \& |(c00)| 00         \& |(c01)| 01         \& |(c11)| 11         \& |(c10)| 10         \& |(cf)| \phantom{00} \\
+|(r00)| 00             \& |(0)|  \phantom{0} \& |(1)|  \phantom{0} \& |(3)|  \phantom{0} \& |(2)|  \phantom{0} \&                     \\
+|(r01)| 01             \& |(4)|  \phantom{0} \& |(5)|  \phantom{0} \& |(7)|  \phantom{0} \& |(6)|  \phantom{0} \&                     \\
+|(r11)| 11             \& |(12)| \phantom{0} \& |(13)| \phantom{0} \& |(15)| \phantom{0} \& |(14)| \phantom{0} \&                     \\
+|(r10)| 10             \& |(8)|  \phantom{0} \& |(9)|  \phantom{0} \& |(11)| \phantom{0} \& |(10)| \phantom{0} \&                     \\
+|(rf) | \phantom{00}   \&                    \&                    \&                    \&                    \&                     \\
+};
+}%
+{
+\end{tikzpicture}
+}
+
+%Empty Karnaugh map 2x4
+\newenvironment{Karnaughvuit}[4][0]%
+{
+\begin{tikzpicture}[scale=0.8]
+\draw (0,0) grid (4,2);
+\draw (0,2) -- node [pos=0.7,above right,anchor=south west] {#3#4} node [pos=0.7,below left,anchor=north east] {#2} ++(135:1);
+%
+\matrix (mapa) [matrix of nodes,
+        column sep={0.8cm,between origins},
+        row sep={0.8cm,between origins},
+        every node/.style={minimum size=0.3mm},
+        anchor=4.center,
+        ampersand replacement=\&] at (0.5,0.5)
+{
+                      \& |(c00)| 00         \& |(c01)| 01         \& |(c11)| 11         \& |(c10)| 10         \& |(cf)| \phantom{00} \\
+|(r00)| 0             \& |(0)|  \phantom{0} \& |(1)|  \phantom{0} \& |(3)|  \phantom{0} \& |(2)|  \phantom{0} \&                     \\
+|(r01)| 1             \& |(4)|  \phantom{0} \& |(5)|  \phantom{0} \& |(7)|  \phantom{0} \& |(6)|  \phantom{0} \&                     \\
+|(rf) | \phantom{00}  \&                    \&                    \&                    \&                    \&                     \\
+};
+}%
+{
+\end{tikzpicture}
+}
+
+%Empty Karnaugh map 2x2
+\newenvironment{Karnaughquatre}%
+{
+\begin{tikzpicture}[baseline=(current bounding box.north),scale=0.8]
+\draw (0,0) grid (2,2);
+\draw (0,2) -- node [pos=0.7,above right,anchor=south west] {b} node [pos=0.7,below left,anchor=north east] {a} ++(135:1);
+%
+\matrix (mapa) [matrix of nodes,
+        column sep={0.8cm,between origins},
+        row sep={0.8cm,between origins},
+        every node/.style={minimum size=0.3mm},
+        anchor=2.center,
+        ampersand replacement=\&] at (0.5,0.5)
+{
+          \& |(c00)| 0          \& |(c01)| 1  \\
+|(r00)| 0 \& |(0)|  \phantom{0} \& |(1)|  \phantom{0} \\
+|(r01)| 1 \& |(2)|  \phantom{0} \& |(3)|  \phantom{0} \\
+};
+}%
+{
+\end{tikzpicture}
+}
+
+%Defines 8 or 16 values (0,1,X)
+\newcommand{\contingut}[1]{%
+\foreach \x [count=\xi from 0]  in {#1}
+     \path (\xi) node {\x};
+}
+
+%Places 1 in listed positions
+\newcommand{\minterms}[1]{%
+    \foreach \x in {#1}
+        \path (\x) node {1};
+}
+
+%Places 0 in listed positions
+\newcommand{\maxterms}[1]{%
+    \foreach \x in {#1}
+        \path (\x) node {0};
+}
+
+%Places X in listed positions
+\newcommand{\indeterminats}[1]{%
+    \foreach \x in {#1}
+        \path (\x) node {X};
+}
+
+%\begin{Karnaugh}
+%    \contingut{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}
+%    \implicant{0}{2}{red}
+%    \implicant{5}{15}{purple}
+%    \implicantdaltbaix[3pt]{3}{10}{blue}
+%\implicantcantons[2pt]{orange}
+%    \implicantcostats{4}{14}{green}
+%\end{Karnaugh}
+%
+%\begin{Karnaughvuit}
+%    \minterms{3,4}
+%    \maxterms{0,1,6,7}
+%    \indeterminats{2,5}
+%%    \implicant{3}{2}{green}
+%    \implicant{4}{5}{}
+%\end{Karnaughvuit}
+%
+%\begin{Karnaughquatre}
+%    \minterms{1,2}
+%    \maxterms{0,3}
+%    \implicantsol{1}{green}
+%    \implicantsol{2}{red}
+%\end{Karnaughquatre}
