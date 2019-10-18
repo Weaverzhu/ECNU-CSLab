@@ -152,17 +152,85 @@ PC 指针是带预置加法计数器，因此在输入起始地址后一旦后�
 PC 地址装在写入与 PC+1 写入流程：
 
 \begin{itemize}
-    \item 
+    \item IO 输入地址，$X_2X_1X_0=011,XP\ W = 11$
+    \item $E/M=LDPC=1$ 按单拍，PC地址写入
+    \item $E/M=LDPC=0,X_2X_1X_0=100,XP=1,W=0$ 选择 PC 到总线
+    \item $LDPC=1$ 按单拍 选通存储器 PC+1 到总线
 \end{itemize}
+
+按照上述 PC 装载读出与 PC+1 读出的流程分别读出 0000~0003h 单元内容，应为 12345678h。
+
+
 
 \section{实验原理}
 
+存储器是计算机的存储部件，用于存放程序和数据。存储器是计算机信息存储的核心，是计算机必不可少的部件之一，计算机就是按存放在存储器中的程序自动有序不间断地进行工作。
+本系统从提高存储器存储信息效率的角度设计数据通路，按现代计算机中最为典型的分段存储理念把存储器组织划分为程序段、数据段等，由此派生了数据总线（DBUS）、指令总线（IBUS）、微总线（BUS）等与现代计算机设计规范相吻合的实验环境。
+实验所用的存储器电路原理如图 \ref{fig:2} 所示，该存储器组织由二片 6116 构成具有奇偶概念的十六位信息存储体系，该存储体系 AddBus 由 PC 指针和 AR 指针分时提供，E/M 控位为“0” 时选通 PC，反之选通 AR。该存储体系可随机定义总线宽度，动态变更总线结构，把我们的教学实验提高到能与现代计算机设计规范相匹配与接轨的层面。
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=0.8\linewidth]{2.jpg}
+  \caption{ 存储器数据通路}
+  \label{fig:2}
+\end{figure}
+
+
 \section{实验步骤}
+
+按照说明接线
+
+
+数据段字写 
+\begin{itemize}
+  \item IN→AR 
+  \item Mem[AR]→BUS
+\end{itemize}
+
+程序段字节写
+\begin{itemize}
+  \item IN→PC
+  \item  PC+1 
+  \item IN→Mem[PC]
+\end{itemize}
+ 
 
 \section{调试过程、结果与分析}
 
+接线如图 \ref{fig:3}
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=0.8\linewidth]{3.jpg}
+  \caption{接线}
+  \label{fig:3}
+\end{figure}
+
+输入pc如图 \ref{fig:4}
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=0.8\linewidth]{4.jpg}
+  \caption{ 输入pc}
+  \label{fig:4}
+\end{figure}
+
+输出结果如 \ref{fig:5}
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=0.8\linewidth]{5.jpg}
+  \caption{ 结果}
+  \label{fig:5}
+\end{figure}
+
 \section{总结}
 
+写使能端 $LDAR, MPW, LDPC$ 要及时关闭避免错误输入
+
+
 \section{附件}
+
+无
 
 \end{document}
