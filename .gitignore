@@ -11,6 +11,7 @@ ore latex/pdflatex auxiliary files:
 *.cb
 *.cb2
 .*.lb
+*.pdf
 
 ## Intermediate documents:
 *.dvi

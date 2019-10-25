@@ -4,16 +4,33 @@
 %\documentclass[a4paper,10pt,UTF8]{ctexart}
 
 \usepackage[english]{babel}
-\usepackage{fancyhdr,array,lastpage,amsmath,mathtools,enumitem,graphicx,multirow,tocbibind,longtable,makecell,varwidth,titlesec,bm,booktabs,comment}
+\usepackage{fancyhdr,array,lastpage,amsmath,mathtools,enumitem,graphicx,multirow,tocbibind,longtable,makecell,varwidth,titlesec,bm,booktabs,comment,minted}
 \usepackage{enumitem}
 \usepackage{hyperref}
 \hypersetup{hidelinks}
-\usepackage{fontspec, xunicode, xltxtra}
-\usepackage{xeCJK}%中文字体
 
-% \setCJKmainfont{PingFang SC}
-% \setmainfont{PingFang SC}
-% \setCJKmonofont{PingFang SC}
+
+\usepackage[left=2.54cm,right=2.54cm,top=2.54cm,bottom=2.54cm]{geometry}
+\usepackage[font=footnotesize,labelfont=bf]{caption}
+\usepackage{tikz,flowchart}
+\usepackage{ctex}
+\usepackage{xeCJK}%中文字体
+\usetikzlibrary{shapes,shapes.geometric,arrows,matrix,calc}
+\usetikzlibrary{circuits.logic}
+
+% \usetikzlibrary{circuits.logic.custom}
+\usetikzlibrary{circuits.logic.IEC}
+\usetikzlibrary{shadows}
+\usepackage{listings}
+\usepackage[Q=yes]{examplep}
+\usepackage{fancyhdr}
+\usepackage{alphalph}
+\usepackage{indentfirst}
+
+% \setCJKsansfont{黑体}
+\setmainfont{PingFang SC}
+\setCJKmainfont{PingFang SC}
+\setCJKsansfont{PingFang SC}
 
 \usepackage[left=2.54cm,right=2.54cm,top=2.54cm,bottom=2.54cm]{geometry}
 \usepackage[font=footnotesize,labelfont=bf]{caption}
