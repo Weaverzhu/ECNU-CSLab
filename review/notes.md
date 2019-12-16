@@ -1,7 +1,8 @@
-## Guide on CMSStudio
+# Guide on CMSStudio
 
+## MXJ1
 
-#### some key points
+### some key points
 
 data & instructions are stored in RAM
 
@@ -21,4 +22,22 @@ First three instruction should be:
 
 so that after running a microprogram, new instruction will be fetched by new PC from RAM
 
-so the last instruction in microprogram should increase PC and reset uPC
+so the last instruction in microprogram should increase PC and reset uPC to 0001 (to fetch next instruction)
+
+### something about the instruction system (.IS files)
+
++ first column should be the name of ur instruction
++ second should be the argument of ur instruction (no spaces should be around the comma symbol, because this software use spaces to split columns)
++ third should be instruction code, should be incremented by 20 (e.g: 20, 40, 60)
++ fourth should be the length of ur code, (times to increase PC)
++ whatever left will be considered as comments
+
+### something about fetching data from RAM
+
+you will always fetch high 8 bits from RAM each time.
+
+so if you want to fetch a 16-bit address, you should first fetch high 8 bits from RAM to ur low 8-bit destination, and then increase PC, fetch high 8 bits from RAM to ur high 8-bit destination, then increase the PC as well
+
+### try it!
+
+now you can finish MXJ1 with ur knowledge
