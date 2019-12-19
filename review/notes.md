@@ -41,3 +41,10 @@ so if you want to fetch a 16-bit address, you should first fetch high 8 bits fro
 ### try it!
 
 now you can finish MXJ1 with ur knowledge
+
+## MXJ2
+
+passing AR from PC is too slow!
+
+we can get data directly from ROM!
+
